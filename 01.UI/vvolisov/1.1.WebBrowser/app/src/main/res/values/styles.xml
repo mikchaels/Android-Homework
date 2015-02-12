@@ -1,0 +1,20 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>-->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar"/>
+
+    <style name="Widget.WebBrowser.buttonStyle" parent="android:Widget.Button">
+        <item name="android:minHeight">1dp</item>
+        <item name="android:minWidth">1dp</item>
+    </style>
+
+    <style name="Widget.WebBrowser.buttonStyle.buttonOKStyle">
+        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
+    </style>
+
+    <style name="Widget.WebBrowser.buttonStyle.buttonNavigateStyle">
+        <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
+    </style>
+
+</resources>

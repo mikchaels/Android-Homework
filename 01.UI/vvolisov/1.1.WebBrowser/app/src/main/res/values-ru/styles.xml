@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>-->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar"/>
+
+    <style name="Widget.WebBrowser.buttonStyle" parent="android:Widget.Button">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Widget.WebBrowser.buttonStyle.buttonOKStyle">
+        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
+        <!--<item name="android:paddingLeft">1dp</item>
+        <item name="android:paddingRight">1dp</item>-->
+    </style>
+
+    <style name="Widget.WebBrowser.buttonStyle.buttonNavigateStyle">
+        <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
+        <!--<item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>-->
+    </style>
+
+</resources>

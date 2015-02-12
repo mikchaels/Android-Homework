@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WebBrowser</string>
+    <string name="btn_back">&lt;</string>
+    <string name="btn_forward">&gt;</string>
+    <string name="btn_go">GO</string>
+    <string name="address_hint">enter web address</string>
+</resources>

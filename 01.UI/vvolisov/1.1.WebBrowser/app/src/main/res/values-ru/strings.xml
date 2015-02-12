@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ВебБраузер</string>
+    <string name="btn_back">&lt;</string>
+    <string name="btn_forward">&gt;</string>
+    <string name="btn_go">Откр</string>
+    <string name="address_hint">Введите веб адрес</string>
+</resources>

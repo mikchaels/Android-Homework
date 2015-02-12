@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+    >
+
+    <Button
+        android:id="@+id/btn_back"
+        style="@style/Widget.WebBrowser.buttonStyle.buttonNavigateStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="@string/btn_back"
+        />
+
+    <Button
+        android:id="@+id/btn_forward"
+        style="@style/Widget.WebBrowser.buttonStyle.buttonNavigateStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/btn_back"
+        android:text="@string/btn_forward"
+        />
+
+    <Button
+        android:id="@+id/btn_go"
+        style="@style/Widget.WebBrowser.buttonStyle.buttonOKStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/btn_go"
+        />
+
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/btn_go"
+        android:layout_toRightOf="@id/btn_forward"
+        android:hint="@string/address_hint"
+        android:inputType="textUri"
+        android:textAppearance="@android:style/TextAppearance.Small"
+        tools:text="address"
+        />
+
+    <WebView
+        android:id="@+id/page_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_go"
+        tools:text="page data"
+
+        />
+
+</RelativeLayout>

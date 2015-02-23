@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="plus_operation">Summ</string>
+    <string name="minus_operation">Minus</string>
+    <string name="multiply_operation">Multiply</string>
+    <string name="devide_operation">Divide</string>
+    <string name="perform_operation">Perform</string>
+    <string name="result_format">Result: %.2f</string>
+</resources>

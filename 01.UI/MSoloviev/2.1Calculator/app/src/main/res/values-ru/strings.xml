@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="plus_operation">Сложение</string>
+    <string name="minus_operation">Вычитание</string>
+    <string name="multiply_operation">Умножение</string>
+    <string name="devide_operation">Деление</string>
+    <string name="perform_operation">Выполнить</string>
+    <string name="result_format">Result: %.2f</string>
+</resources>

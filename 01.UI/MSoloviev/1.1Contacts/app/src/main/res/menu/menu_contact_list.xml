@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.soloviev.contactsapp.ContactListActivity"
+    >
+    <item
+        android:id="@+id/add_contact"
+        android:icon="@drawable/ic_action_content_add"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_add"
+        />
+    <item
+        android:id="@+id/delete_contact"
+        android:icon="@drawable/ic_action_action_delete"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_delete"
+        android:visible="false"
+        />
+    <item
+        android:id="@+id/clean_contacts"
+        android:showAsAction="never"
+        android:title="@string/action_clean"
+        >
+        <menu>
+            <item
+                android:id="@+id/action_confirm_cleaning"
+                android:title="@string/confirm_cleaning"
+                />
+
+        </menu>
+    </item>
+</menu>

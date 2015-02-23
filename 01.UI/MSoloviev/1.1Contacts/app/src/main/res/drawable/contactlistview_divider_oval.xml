@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:innerRadius="25dp"
+       android:shape="oval"
+    >
+    <solid android:color="@android:color/black"></solid>
+    <size android:height="@dimen/contactlistview_divider_height"></size>
+    <gradient
+        android:angle="270"
+        android:endColor="#FFFF00"
+        android:startColor="#FF0000"
+        ></gradient>
+</shape>

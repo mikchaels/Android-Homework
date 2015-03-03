@@ -8,6 +8,9 @@ import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.view.View;
+import android.widget.Button;
+
 
 import java.io.IOException;
 
@@ -16,14 +19,13 @@ import java.io.IOException;
  */
 public class MPlayerService extends IntentService {
 
-    MediaPlayer mMediaPlayer;
+    private static MediaPlayer mMediaPlayer;
     public final static String ACTION_PLAY = "play";
     public final static String ACTION_PAUSE = "pause";
     public final static String ACTION_STOP = "stop";
 
     public MPlayerService() {
         super(MPlayerService.class.getSimpleName());
-
     }
 
     @Override
@@ -46,6 +48,7 @@ public class MPlayerService extends IntentService {
                         "Unknown action '" + intent.getAction() + "'.");
 
         }
+
     }
 
     @Override
@@ -54,22 +57,21 @@ public class MPlayerService extends IntentService {
         if (mMediaPlayer == null) {
             mMediaPlayer = new MediaPlayer();
             try {
-                AssetFileDescriptor file = getAssets().openFd("GAU.mp3");
+                AssetFileDescriptor file = getAssets().openFd("SZ.mp3");
                 mMediaPlayer.setDataSource(file.getFileDescriptor(), file.getStartOffset(), file.getLength());
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mMediaPlayer.prepare();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //mMediaPlayer = MediaPlayer.create(this, R.raw.SZ);
 
         }
     }
 
     private void pause() {
-        if (mMediaPlayer.isPlaying()) {
-            mMediaPlayer.pause();
-        }
+        // if (mMediaPlayer.isPlaying()) {
+        mMediaPlayer.pause();
+        // }
     }
 
     private void play() {
@@ -79,7 +81,7 @@ public class MPlayerService extends IntentService {
     }
 
     private void stop() {
-        if (mMediaPlayer.isPlaying()) {
+        if (!(mMediaPlayer == null)) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
             mMediaPlayer = null;

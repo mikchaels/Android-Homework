@@ -1,11 +1,11 @@
 package by.soloviev.mplayer;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 
 public class MPlayerActivity extends Activity {
     private boolean isPlay = false;
@@ -19,8 +19,8 @@ public class MPlayerActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                Intent playIntent = new Intent(MPlayerActivity.this,MPlayerService.class);
-                Button button=(Button)v;
+                Intent playIntent = new Intent(MPlayerActivity.this, MPlayerService.class);
+                Button button = (Button) v;
                 if (isPlay) {
                     playIntent.setAction(MPlayerService.ACTION_PAUSE);
                     button.setText("Start");
@@ -43,4 +43,6 @@ public class MPlayerActivity extends Activity {
             }
         });
     }
+
+
 }

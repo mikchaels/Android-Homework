@@ -3,6 +3,7 @@ package com.example.soloviev.calculator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -10,16 +11,18 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v4.app.FragmentManager;
 
 /**
  * Created by slezgouka on 2/4/2015.
  */
 
-public class CalculatorActivity extends Activity {
+public class CalculatorActivity extends FragmentActivity {
     private RadioGroup operands;
     TextView result;
     EditText operand_first;
     EditText operand_second;
+    static final String TAG_DIALOG = "dialog";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,11 +112,8 @@ public class CalculatorActivity extends Activity {
     }
 
     private void divisionByZero() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("division")
-                .setMessage("division by zero")
-                .setNeutralButton("ok", null);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+
+        DialogFragments.newInstance("")
+                .show(getSupportFragmentManager(), TAG_DIALOG);
     }
 }

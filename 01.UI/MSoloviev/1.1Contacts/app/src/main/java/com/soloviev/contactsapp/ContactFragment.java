@@ -1,7 +1,8 @@
 package com.soloviev.contactsapp;
 
-import android.app.Fragment;
+
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import android.widget.TextView;
  * Created by USER on 06.03.2015.
  */
 public class ContactFragment extends Fragment {
+    public static final String ID_CONTACT = "contact";
     TextView mNameView;
     TextView mPhoneView;
     TextView mEmailView;
@@ -26,23 +28,29 @@ public class ContactFragment extends Fragment {
     Contact contact;
 
     @Override
-  public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNameView = (TextView) getActivity().findViewById(R.id.name);
-        mPhoneView = (TextView) getActivity().findViewById(R.id.phone);
-        mEmailView = (TextView) getActivity().findViewById(R.id.email);
-        mAddressView = (TextView) getActivity().findViewById(R.id.address);
-        mBirthDateView = (TextView) getActivity().findViewById(R.id.birthdate);
-        mOccupationView = (TextView) getActivity().findViewById(R.id.occupation);
-        mSave = (Button) getActivity().findViewById(R.id.save);
-        init((int) getActivity().getIntent().getSerializableExtra("contact"));
-
-
+        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_contact,container,false);
+
+        return inflater.inflate(R.layout.fragment_contact, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mNameView = (TextView) getActivity().findViewById(com.soloviev.contactsapp.R.id.name);
+        mPhoneView = (TextView) getActivity().findViewById(R.id.phone);
+        mEmailView = (TextView) view.findViewById(R.id.email);
+        mAddressView = (TextView) view.findViewById(R.id.address);
+        mBirthDateView = (TextView) view.findViewById(R.id.birthdate);
+        mOccupationView = (TextView) view.findViewById(R.id.occupation);
+        mSave = (Button) view.findViewById(R.id.save);
+        init((int) getActivity().getIntent().getSerializableExtra(ID_CONTACT));
     }
 
     @Override
@@ -51,15 +59,7 @@ public class ContactFragment extends Fragment {
         inflater.inflate(R.menu.menu_contact, menu);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//
-//        getActivity().getMenuInflater().inflate(R.menu.menu_contact, menu);
-//        return true;
-//
-//    }
-
-    public  void init(int id) {
+    public void init(int id) {
         contact = ContactsRepository.getInstance().getContact(id);
         mNameView.setText(contact.getName());
         mPhoneView.setText(contact.getPhone());

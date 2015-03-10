@@ -1,6 +1,5 @@
 package com.soloviev.contactsapp;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
@@ -26,6 +25,7 @@ public class ContactFragment extends Fragment {
     TextView mOccupationView;
     Button mSave;
     Contact contact;
+    int idContact;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,6 @@ public class ContactFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         mNameView = (TextView) getActivity().findViewById(com.soloviev.contactsapp.R.id.name);
         mPhoneView = (TextView) getActivity().findViewById(R.id.phone);
         mEmailView = (TextView) view.findViewById(R.id.email);
@@ -50,7 +49,8 @@ public class ContactFragment extends Fragment {
         mBirthDateView = (TextView) view.findViewById(R.id.birthdate);
         mOccupationView = (TextView) view.findViewById(R.id.occupation);
         mSave = (Button) view.findViewById(R.id.save);
-        init((int) getActivity().getIntent().getSerializableExtra(ID_CONTACT));
+        idContact=(int) getActivity().getIntent().getSerializableExtra(ID_CONTACT);
+        init(idContact);
     }
 
     @Override
@@ -77,8 +77,8 @@ public class ContactFragment extends Fragment {
     /*TODO*/
         //contact.setBirthDate((java.util.Date) mBirthDateView.getText());
         contact.setOccupation(mOccupationView.getText().toString());
-
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -96,8 +96,12 @@ public class ContactFragment extends Fragment {
                     }
                 });
                 break;
+
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+    public int getIdContact(){
+        return idContact;
     }
 }

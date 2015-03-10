@@ -11,21 +11,21 @@ import android.support.v4.app.FragmentTransaction;
 public class ContactListActivity extends FragmentActivity {
 
 
-    public static final String TAG_CONTACT_ACTIVITY_FRAGMENT ="contact_activity_fragment";
+    public static final String TAG_CONTACT_ACTIVITY_FRAGMENT = "contact_activity_fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
         FragmentManager fragmentManager = getSupportFragmentManager();
-       ContactsListFragment contactListFragment = (ContactsListFragment) fragmentManager.findFragmentByTag(TAG_CONTACT_ACTIVITY_FRAGMENT);
+        ContactsListFragment contactListFragment = (ContactsListFragment) fragmentManager.findFragmentByTag(TAG_CONTACT_ACTIVITY_FRAGMENT);
         if (contactListFragment == null) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(android.R.id.content,new ContactsListFragment(), TAG_CONTACT_ACTIVITY_FRAGMENT).commit();
+            fragmentTransaction.add(R.id.layout_left, new ContactsListFragment(), TAG_CONTACT_ACTIVITY_FRAGMENT).commit();
         }
+    }
 
-    }
-    }
+}
 
 
 

@@ -27,13 +27,11 @@ public class ContactsListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_contact_list, container, false);
-
     }
 
     @Override
@@ -43,7 +41,6 @@ public class ContactsListFragment extends ListFragment {
         setListAdapter(mContactListViewAdapter);
 //        setEmptyText("Нет контактов");
         setHasOptionsMenu(true);
-
     }
 
     @Override
@@ -67,13 +64,11 @@ public class ContactsListFragment extends ListFragment {
             case R.id.add_contact:
                 contactsRepository.addContact(Contact.generateNewContact());
                 Toast.makeText(getActivity(), "added, now " + (contactsRepository.getCountContacts()), Toast.LENGTH_SHORT).show();
-
                 /*TODO*/
-
                 if (!(menuDelete.isVisible())) {
                     menuDelete.setVisible(true);
                 }
-
+                /**/
                 refresh();
                 break;
 
@@ -92,7 +87,6 @@ public class ContactsListFragment extends ListFragment {
     }
 
     private void refresh() {
-
         (mContactListViewAdapter).notifyDataSetChanged();
     }
 
@@ -101,15 +95,16 @@ public class ContactsListFragment extends ListFragment {
         Intent intent = new Intent(getActivity(), ContactActivity.class);
         intent.putExtra(ContactFragment.ID_CONTACT, ((Contact) l.getItemAtPosition(position)).getId());
 
-        if (getActivity().findViewById(R.id.layout_plan)!=null){
+        if (getActivity().findViewById(R.id.layout_plan) != null) {
             getActivity().setIntent(intent);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             ContactFragment contactFragment = (ContactFragment) fragmentManager.findFragmentByTag(ContactActivity.TAG_CONTACT_FRAGMENT);
-            if (contactFragment == null) {
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(android.R.id.content,new ContactFragment(), ContactActivity.TAG_CONTACT_FRAGMENT).commit();
+            if (contactFragment != null) {
+                fragmentManager.beginTransaction().detach(contactFragment).commit();
             }
-        }else{
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.layout_ridht, new ContactFragment(), ContactActivity.TAG_CONTACT_FRAGMENT).commit();
+        } else {
             startActivity(intent);
         }
     }
@@ -123,11 +118,18 @@ public class ContactsListFragment extends ListFragment {
     public void safeRemoveItem(final int position) { ////TODO ?????
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Warning")
-                .setMessage("You sure?")
+                .setMessage("Are you sure?")
                 .setNegativeButton("NO", null)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        ContactFragment contactFragment = (ContactFragment) fragmentManager.findFragmentByTag(ContactActivity.TAG_CONTACT_FRAGMENT);
+                        if (position == contactFragment.getIdContact()) {
+                            if (contactFragment != null) {
+                                fragmentManager.beginTransaction().detach(contactFragment).commit();
+                            }
+                        }
                         ContactsRepository.getInstance().removeContact(position);
                         Toast.makeText(getActivity(), "delete_finish_elements" + ContactsRepository.getInstance().getCountContacts(), Toast.LENGTH_SHORT).show();
                         refresh();

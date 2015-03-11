@@ -12,6 +12,13 @@
     </intent-filter>
 </activity>
         <service android:name=".MPlayerService"/>
+        <receiver android:name="MPlayerAppWidgetProvider"
+
+            >
+            <intent-filter>
+
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

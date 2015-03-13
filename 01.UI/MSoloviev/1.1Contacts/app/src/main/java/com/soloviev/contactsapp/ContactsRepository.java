@@ -23,11 +23,15 @@ public class ContactsRepository {
     }
 
     public void addContact(Contact contact) {
-        if (!contact.isSetManualContact()){
-        mContacts.add(contact);}
-        else {
+        if (!contact.isSetManualContact()) {
+            mContacts.add(contact);
+        } else {
             /*TODO*/
         }
+    }
+
+    public Contact getContactByPosition(int position) {
+        return mContacts.get(position);
     }
 
     public void removeContact(int position) {
@@ -41,21 +45,22 @@ public class ContactsRepository {
     public int getCountContacts() {
         return mContacts.size();
     }
-/*
-* возвращает элемент коллекции
-* имеющий
-*
-* */
+
+    /*
+    * возвращает элемент коллекции
+    * имеющий
+    *
+    * */
     public Contact getContact(int id) {
 //        for (Contact contact : mContacts) {
 //            if (contact.getId() == id) {
 //                return contact;
 //            }
 //        }
-        if(mContacts.contains(new Contact(id))){
-           return mContacts.get( mContacts.indexOf(new Contact(id)));
+        if (mContacts.contains(new Contact(id))) {
+            return mContacts.get(mContacts.indexOf(new Contact(id)));
         }
         /* TODO Exeptions*/
-    return null;
+        return null;
     }
 }

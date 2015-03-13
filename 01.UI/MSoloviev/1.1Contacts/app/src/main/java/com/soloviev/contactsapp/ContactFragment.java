@@ -16,7 +16,7 @@ import android.widget.TextView;
  * Created by USER on 06.03.2015.
  */
 public class ContactFragment extends Fragment {
-    public static final String ID_CONTACT = "contact";
+    public static final String ID_CONTACT = "id_contact";
     TextView mNameView;
     TextView mPhoneView;
     TextView mEmailView;
@@ -26,6 +26,14 @@ public class ContactFragment extends Fragment {
     Button mSave;
     Contact contact;
     int idContact;
+
+    public static ContactFragment newInstanceFragment(int idContact) {
+        Bundle arg = new Bundle(1);
+        arg.putInt(ID_CONTACT, idContact);
+        ContactFragment contactFragment = new ContactFragment();
+        contactFragment.setArguments(arg);
+        return contactFragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +57,13 @@ public class ContactFragment extends Fragment {
         mBirthDateView = (TextView) view.findViewById(R.id.birthdate);
         mOccupationView = (TextView) view.findViewById(R.id.occupation);
         mSave = (Button) view.findViewById(R.id.save);
-        idContact=(int) getActivity().getIntent().getSerializableExtra(ID_CONTACT);
+        Bundle arg = getArguments();
+        if (arg == null) {
+            idContact = (int) getActivity().getIntent().getSerializableExtra(ID_CONTACT);
+        } else {
+            idContact = arg.getInt(ID_CONTACT);
+        }
+
         init(idContact);
     }
 
@@ -101,7 +115,8 @@ public class ContactFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
-    public int getIdContact(){
+
+    public int getIdContact() {
         return idContact;
     }
 }

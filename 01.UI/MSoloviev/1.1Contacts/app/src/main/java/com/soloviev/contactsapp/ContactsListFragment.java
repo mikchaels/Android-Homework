@@ -22,7 +22,8 @@ import android.widget.Toast;
 public class ContactsListFragment extends ListFragment {
     /*TODO*/
     MenuItem menuDelete;
-    private ContactListViewAdapter mContactListViewAdapter;
+    ContactListViewAdapter mContactListViewAdapter;
+    int mIdContactDetails;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class ContactsListFragment extends ListFragment {
         setListAdapter(mContactListViewAdapter);
 //        setEmptyText("Нет контактов");
         setHasOptionsMenu(true);
+        disableDelete();
     }
 
     @Override
@@ -92,19 +94,18 @@ public class ContactsListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Intent intent = new Intent(getActivity(), ContactActivity.class);
-        intent.putExtra(ContactFragment.ID_CONTACT, ((Contact) l.getItemAtPosition(position)).getId());
-
+        mIdContactDetails = ((Contact) l.getItemAtPosition(position)).getId();
         if (getActivity().findViewById(R.id.layout_plan) != null) {
-            getActivity().setIntent(intent);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             ContactFragment contactFragment = (ContactFragment) fragmentManager.findFragmentByTag(ContactActivity.TAG_CONTACT_FRAGMENT);
             if (contactFragment != null) {
                 fragmentManager.beginTransaction().detach(contactFragment).commit();
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.layout_ridht, new ContactFragment(), ContactActivity.TAG_CONTACT_FRAGMENT).commit();
+            fragmentTransaction.add(R.id.layout_ridht, ContactFragment.newInstanceFragment(mIdContactDetails), ContactActivity.TAG_CONTACT_FRAGMENT).commit();
         } else {
+            Intent intent = new Intent(getActivity(), ContactActivity.class);
+            intent.putExtra(ContactFragment.ID_CONTACT, mIdContactDetails);
             startActivity(intent);
         }
     }
@@ -125,7 +126,7 @@ public class ContactsListFragment extends ListFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         ContactFragment contactFragment = (ContactFragment) fragmentManager.findFragmentByTag(ContactActivity.TAG_CONTACT_FRAGMENT);
-                        if (position == contactFragment.getIdContact()) {
+                        if (ContactsRepository.getInstance().getContactByPosition(position).getId() == contactFragment.getIdContact()) {
                             if (contactFragment != null) {
                                 fragmentManager.beginTransaction().detach(contactFragment).commit();
                             }
@@ -133,13 +134,26 @@ public class ContactsListFragment extends ListFragment {
                         ContactsRepository.getInstance().removeContact(position);
                         Toast.makeText(getActivity(), "delete_finish_elements" + ContactsRepository.getInstance().getCountContacts(), Toast.LENGTH_SHORT).show();
                         refresh();
-                        if (ContactsRepository.getInstance().getCountContacts() == 0) {
-                            menuDelete.setVisible(false);
-                        }
+                        disableDelete();
                     }
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
 
     }
+
+    /*
+    * делает пункт меню "удалить последний контакт" недоступным в случае
+    * отстуствия в хранилище контактов.
+    * возвращает в случае успеха true,
+    * иначе false
+    * */
+    private boolean disableDelete() {
+        if (ContactsRepository.getInstance().getCountContacts() == 0) {
+            menuDelete.setVisible(false);
+            return true;
+        }
+        return false;
+    }
+
 }

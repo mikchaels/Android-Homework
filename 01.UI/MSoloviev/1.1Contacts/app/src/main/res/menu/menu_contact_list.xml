@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_action_action_delete"
         android:showAsAction="ifRoom"
         android:title="@string/action_delete"
-        android:visible="false"
+
         />
     <item
         android:id="@+id/clean_contacts"

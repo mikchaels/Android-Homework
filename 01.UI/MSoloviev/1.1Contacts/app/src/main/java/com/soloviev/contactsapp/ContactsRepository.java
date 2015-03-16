@@ -1,5 +1,9 @@
 package com.soloviev.contactsapp;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,12 +11,24 @@ public class ContactsRepository {
     private static ContactsRepository sContactsRepository = new ContactsRepository();
     EmptyCheckable mEmptyCheckable;
     private List<Contact> mContacts;
+    private SQLiteOpenHelper mContactsDataBaseHelper;
+    private SQLiteDatabase db;
+    static Context mContext;
 
     private ContactsRepository() {
         mContacts = new ArrayList<Contact>();
+        mContactsDataBaseHelper = new ContactsDataBaseHelper(mContext);
+        db = mContactsDataBaseHelper.getWritableDatabase();
+        readInformationFromDB();
+
     }
 
-    public static ContactsRepository getInstance() {
+    private void readInformationFromDB() {
+
+    }
+
+    public static ContactsRepository getInstance(Context context) {
+        mContext = context;
         return sContactsRepository;
     }
 

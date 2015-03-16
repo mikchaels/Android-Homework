@@ -2,9 +2,10 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".ContactActivity">
-    <item android:id="@+id/action_edit"
-          android:title="edit"
-          android:orderInCategory="100"
-          android:showAsAction="ifRoom"
+    <item
+        android:id="@+id/action_edit"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:title="edit"
         />
 </menu>

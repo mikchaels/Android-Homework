@@ -19,7 +19,7 @@ import android.widget.Toast;
 /**
  * Created by USER on 06.03.2015.
  */
-public class ContactsListFragment extends ListFragment {
+public class ContactsListFragment extends ListFragment implements ContactsRepository.EmptyCheckable {
     /*TODO*/
     MenuItem menuDelete;
     ContactListViewAdapter mContactListViewAdapter;
@@ -42,7 +42,8 @@ public class ContactsListFragment extends ListFragment {
         setListAdapter(mContactListViewAdapter);
 //        setEmptyText("Нет контактов");
         setHasOptionsMenu(true);
-        disableDelete();
+        ContactsRepository.getInstance().setEmptyCheckable(this);
+//        disableDelete();
     }
 
     @Override
@@ -116,7 +117,7 @@ public class ContactsListFragment extends ListFragment {
         refresh();
     }
 
-    public void safeRemoveItem(final int position) { ////TODO ?????
+    public void safeRemoveItem(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Warning")
                 .setMessage("Are you sure?")
@@ -126,15 +127,15 @@ public class ContactsListFragment extends ListFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         ContactFragment contactFragment = (ContactFragment) fragmentManager.findFragmentByTag(ContactActivity.TAG_CONTACT_FRAGMENT);
-                        if (ContactsRepository.getInstance().getContactByPosition(position).getId() == contactFragment.getIdContact()) {
-                            if (contactFragment != null) {
+                        if (contactFragment != null) {
+                            if (ContactsRepository.getInstance().getContactByPosition(position).getId() == contactFragment.getIdContact()) {
                                 fragmentManager.beginTransaction().detach(contactFragment).commit();
                             }
                         }
                         ContactsRepository.getInstance().removeContact(position);
                         Toast.makeText(getActivity(), "delete_finish_elements" + ContactsRepository.getInstance().getCountContacts(), Toast.LENGTH_SHORT).show();
                         refresh();
-                        disableDelete();
+//                        disableDelete();
                     }
                 });
         AlertDialog dialog = builder.create();
@@ -142,18 +143,22 @@ public class ContactsListFragment extends ListFragment {
 
     }
 
-    /*
-    * делает пункт меню "удалить последний контакт" недоступным в случае
-    * отстуствия в хранилище контактов.
-    * возвращает в случае успеха true,
-    * иначе false
-    * */
-    private boolean disableDelete() {
-        if (ContactsRepository.getInstance().getCountContacts() == 0) {
-            menuDelete.setVisible(false);
-            return true;
-        }
-        return false;
-    }
+//    /*
+//    * делает пункт меню "удалить последний контакт" недоступным в случае
+//    * отстуствия в хранилище контактов.
+//    * возвращает в случае успеха true,
+//    * иначе false
+//    * */
+//    private boolean disableDelete() {
+//        if (ContactsRepository.getInstance().getCountContacts() == 0) {
+//            menuDelete.setVisible(false);
+//            return true;
+//        }
+//        return false;
+//    }
 
+    @Override
+    public void actionByContactsEmpty() {
+        menuDelete.setVisible(false);
+    }
 }

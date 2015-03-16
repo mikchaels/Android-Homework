@@ -14,13 +14,13 @@ public class ContactActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_contact);
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    ContactFragment contactFragment = (ContactFragment) fragmentManager.findFragmentByTag(TAG_CONTACT_FRAGMENT);
-    if (contactFragment == null) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(android.R.id.content,new ContactFragment(), TAG_CONTACT_FRAGMENT).commit();
-    }
+        setContentView(R.layout.activity_contact);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ContactFragment contactFragment = (ContactFragment) fragmentManager.findFragmentByTag(TAG_CONTACT_FRAGMENT);
+        if (contactFragment == null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(android.R.id.content, new ContactFragment(), TAG_CONTACT_FRAGMENT).commit();
+        }
 
-}
+    }
 }

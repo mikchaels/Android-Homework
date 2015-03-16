@@ -38,7 +38,9 @@ public class Contact implements Serializable {
         cont.setPhone("12345 ");
         return cont;
     }
-
+/*
+* если контакт сформирован с ID контакта заданным   вручную возвращает true
+* */
     public boolean isSetManualContact() {
         return setManualContact;
     }

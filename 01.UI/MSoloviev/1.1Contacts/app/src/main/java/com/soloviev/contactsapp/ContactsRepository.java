@@ -3,11 +3,9 @@ package com.soloviev.contactsapp;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Admin on 06.02.2015.
- */
 public class ContactsRepository {
     private static ContactsRepository sContactsRepository = new ContactsRepository();
+    EmptyCheckable mEmptyCheckable;
     private List<Contact> mContacts;
 
     private ContactsRepository() {
@@ -36,10 +34,12 @@ public class ContactsRepository {
 
     public void removeContact(int position) {
         mContacts.remove(position);
+        onEmptyAction();
     }
 
     public void removeContacts() {
         mContacts.clear();
+        onEmptyAction();
     }
 
     public int getCountContacts() {
@@ -48,19 +48,35 @@ public class ContactsRepository {
 
     /*
     * возвращает элемент коллекции
-    * имеющий
+    * по ID
     *
     * */
     public Contact getContact(int id) {
-//        for (Contact contact : mContacts) {
-//            if (contact.getId() == id) {
-//                return contact;
-//            }
-//        }
-        if (mContacts.contains(new Contact(id))) {
-            return mContacts.get(mContacts.indexOf(new Contact(id)));
+        for (Contact contact : mContacts) {
+            if (contact.getId() == id) {
+                return contact;
+            }
         }
-        /* TODO Exeptions*/
+//        if (mContacts.contains(new Contact(id))) {
+//            return mContacts.get(mContacts.indexOf(new Contackt(id)));
+//        }
         return null;
+    }
+
+    public void setEmptyCheckable(EmptyCheckable emptyCheckable) {
+        mEmptyCheckable = emptyCheckable;
+        onEmptyAction();
+    }
+
+    void onEmptyAction() {
+        if (mEmptyCheckable != null) {
+            if (mContacts.isEmpty()) {
+                mEmptyCheckable.actionByContactsEmpty();
+            }
+        }
+    }
+
+    public static interface EmptyCheckable {
+        void actionByContactsEmpty();
     }
 }

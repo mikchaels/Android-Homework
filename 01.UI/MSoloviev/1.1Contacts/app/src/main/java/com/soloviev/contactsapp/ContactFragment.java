@@ -74,7 +74,7 @@ public class ContactFragment extends Fragment {
     }
 
     public void init(int id) {
-        contact = ContactsRepository.getInstance().getContact(id);
+        contact = ContactsRepository.getInstance(getActivity().getApplicationContext()).getContact(id);
         mNameView.setText(contact.getName());
         mPhoneView.setText(contact.getPhone());
         mEmailView.setText(contact.getEmail());

@@ -38,11 +38,11 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mContactListViewAdapter = new ContactListViewAdapter(ContactsRepository.getInstance().getContacts());
+        mContactListViewAdapter = new ContactListViewAdapter(ContactsRepository.getInstance(getActivity().getApplicationContext()).getContacts());
         setListAdapter(mContactListViewAdapter);
 //        setEmptyText("Нет контактов");
         setHasOptionsMenu(true);
-        ContactsRepository.getInstance().setEmptyCheckable(this);
+        ContactsRepository.getInstance(getActivity().getApplicationContext()).setEmptyCheckable(this);
 //        disableDelete();
     }
 
@@ -61,7 +61,7 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        ContactsRepository contactsRepository = ContactsRepository.getInstance();
+        ContactsRepository contactsRepository = ContactsRepository.getInstance(getActivity().getApplicationContext());
         switch (id) {
 
             case R.id.add_contact:
@@ -128,12 +128,12 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         ContactFragment contactFragment = (ContactFragment) fragmentManager.findFragmentByTag(ContactActivity.TAG_CONTACT_FRAGMENT);
                         if (contactFragment != null) {
-                            if (ContactsRepository.getInstance().getContactByPosition(position).getId() == contactFragment.getIdContact()) {
+                            if (ContactsRepository.getInstance(getActivity().getApplicationContext()).getContactByPosition(position).getId() == contactFragment.getIdContact()) {
                                 fragmentManager.beginTransaction().detach(contactFragment).commit();
                             }
                         }
-                        ContactsRepository.getInstance().removeContact(position);
-                        Toast.makeText(getActivity(), "delete_finish_elements" + ContactsRepository.getInstance().getCountContacts(), Toast.LENGTH_SHORT).show();
+                        ContactsRepository.getInstance(getActivity().getApplicationContext()).removeContact(position);
+                        Toast.makeText(getActivity(), "delete_finish_elements" + ContactsRepository.getInstance(getActivity().getApplicationContext()).getCountContacts(), Toast.LENGTH_SHORT).show();
                         refresh();
 //                        disableDelete();
                     }

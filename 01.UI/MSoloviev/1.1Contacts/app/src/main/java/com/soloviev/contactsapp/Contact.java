@@ -6,7 +6,6 @@ import java.util.Date;
 public class Contact implements Serializable {
 
     private static int sCounter = 0;
-
     private int mId;
     private String mPhone;
     private String mName;
@@ -17,12 +16,13 @@ public class Contact implements Serializable {
     /*флаг для проверки создания контакта с ручным заданием ID*/
     private boolean setManualContact;
 
-
     public Contact() {
         mId = ++sCounter;
         setManualContact = false;
     }
-/*создание контакта с ручным вводом  ID- не рекоменд.*/
+
+
+    /*создание контакта с ручным вводом  ID- не рекоменд.*/
     Contact(int mId) {
         this.mId = mId;
         setManualContact = true;
@@ -38,9 +38,14 @@ public class Contact implements Serializable {
         cont.setPhone("12345 ");
         return cont;
     }
-/*
-* если контакт сформирован с ID контакта заданным   вручную возвращает true
-* */
+
+    public static void setCounter(int counter) {
+        sCounter = counter;
+    }
+
+    /*
+    * если контакт сформирован с ID контакта заданным   вручную возвращает true
+    * */
     public boolean isSetManualContact() {
         return setManualContact;
     }
@@ -129,4 +134,5 @@ public class Contact implements Serializable {
                 ", mOccupation='" + mOccupation + '\'' +
                 '}';
     }
+
 }

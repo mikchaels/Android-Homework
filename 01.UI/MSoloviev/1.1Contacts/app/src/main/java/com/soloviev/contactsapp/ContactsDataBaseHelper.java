@@ -20,11 +20,11 @@ public class ContactsDataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NAME_ADDRESS = "ADDRESS";
     public static final String COLUMN_NAME_BIRTH_DATE = "BIRTH_DATE";
     public static final String COLUMN_NAME_OCCUPATION = "OCCUPATION";
-    private static final String DELETE_QUERY_TABLE = "DROP TABLE IF EXISTS"+CONTACTS_TABLE_NAME;
-    private static final String CREATE_QUERY_TABLE = "CREATE TABLE" + CONTACTS_TABLE_NAME + "{" + "_id" + "INTEGER PRIMARY KEY AUTOINCREMENT"
-            + COLUMN_NAME_ID + "INTEGER" + COLUMN_NAME_NAME + CONTACTS_TABLE_NAME + "TEXT" + COLUMN_NAME_PHONE + "TEXT"
-            + COLUMN_NAME_EMAIL + "TEXT" + COLUMN_NAME_ADDRESS + "TEXT" + COLUMN_NAME_BIRTH_DATE + "TEXT"
-            + COLUMN_NAME_OCCUPATION + "TEXT" + "}";
+    private static final String DELETE_QUERY_TABLE = "DROP TABLE IF EXISTS "+CONTACTS_TABLE_NAME;
+    private static final String CREATE_QUERY_TABLE = "CREATE TABLE " + CONTACTS_TABLE_NAME + " (" + " _id" + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLUMN_NAME_ID + " INTEGER," + COLUMN_NAME_NAME + " TEXT," + CONTACTS_TABLE_NAME + " TEXT," + COLUMN_NAME_PHONE + " TEXT,"
+            + COLUMN_NAME_EMAIL + " TEXT," + COLUMN_NAME_ADDRESS + " TEXT," + COLUMN_NAME_BIRTH_DATE + " TEXT,"
+            + COLUMN_NAME_OCCUPATION + " TEXT" + ")";
 
 
     public ContactsDataBaseHelper(Context context) {

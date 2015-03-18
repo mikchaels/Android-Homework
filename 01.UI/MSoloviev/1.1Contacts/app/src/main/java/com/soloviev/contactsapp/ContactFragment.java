@@ -2,7 +2,6 @@ package com.soloviev.contactsapp;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -79,7 +78,8 @@ public class ContactFragment extends Fragment {
         mPhoneView.setText(contact.getPhone());
         mEmailView.setText(contact.getEmail());
         mAddressView.setText(contact.getAddress());
-        mBirthDateView.setText(DateFormat.getDateFormat(getActivity()).format(contact.getBirthDate()));
+        /*TODO*/
+        //mBirthDateView.setText(DateFormat.getDateFormat(getActivity()).format(contact.getBirthDate()));
         mOccupationView.setText(contact.getOccupation());
     }
 

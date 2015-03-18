@@ -25,6 +25,11 @@ public class ContactListActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ContactsRepository.getInstance(getApplicationContext()).writeInformationByDB();
+    }
 }
 
 

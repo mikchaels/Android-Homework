@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsRepository {
-    static Context mContext;
-    private static ContactsRepository sContactsRepository = new ContactsRepository(mContext);
+    private Context mContext;
+    private static ContactsRepository sContactsRepository;
     EmptyCheckable mEmptyCheckable;
     private List<Contact> mContacts;
     private SQLiteOpenHelper mContactsDataBaseHelper;
@@ -20,18 +20,23 @@ public class ContactsRepository {
 
     private ContactsRepository(Context context) {
         mContacts = new ArrayList<Contact>();
-        mContactsDataBaseHelper = new ContactsDataBaseHelper(mContext);
-        db = mContactsDataBaseHelper.getWritableDatabase();
+        mContext=context;
         readInformationFromDB();
     }
 
     public static ContactsRepository getInstance(Context context) {
-        mContext = context;
+        if (sContactsRepository == null) {
+
+            sContactsRepository = new ContactsRepository(context);
+        }
+
         return sContactsRepository;
+
     }
 
     private void readInformationFromDB() {
         int maxID = 0;
+        openDB();
         Cursor cursor = db.query(ContactsDataBaseHelper.CONTACTS_TABLE_NAME,
                 new String[]{ContactsDataBaseHelper.COLUMN_NAME_ADDRESS,
                         ContactsDataBaseHelper.COLUMN_NAME_BIRTH_DATE,
@@ -54,16 +59,18 @@ public class ContactsRepository {
                 maxID = id;
             }
         }
-        Contact.setCounter(++maxID);
-        isSaveChange = false;
+        Contact.setCounter(+maxID);
+        closeDB();
     }
 
-    private void writeInformationByDB() {
+    public void writeInformationByDB() {
+        openDB();
         clearDB();
         for (Contact contact : mContacts) {
             ContentValues contentValues = new ContentValues();
             contentValues.put(ContactsDataBaseHelper.COLUMN_NAME_ADDRESS, contact.getAddress());
-            contentValues.put(ContactsDataBaseHelper.COLUMN_NAME_BIRTH_DATE, contact.getBirthDate().toString());
+            /*TODO DATE*/
+            contentValues.put(ContactsDataBaseHelper.COLUMN_NAME_BIRTH_DATE, ""/*(contact.getBirthDate().toString())*/);
             contentValues.put(ContactsDataBaseHelper.COLUMN_NAME_EMAIL, contact.getEmail());
             contentValues.put(ContactsDataBaseHelper.COLUMN_NAME_ID, contact.getId());
             contentValues.put(ContactsDataBaseHelper.COLUMN_NAME_NAME, contact.getName());
@@ -72,10 +79,16 @@ public class ContactsRepository {
             db.insert(ContactsDataBaseHelper.CONTACTS_TABLE_NAME, ContactsDataBaseHelper.COLUMN_NAME_ID, contentValues);
         }
         isSaveChange = true;
+        closeDB();
     }
 
     private void clearDB() {
         mContactsDataBaseHelper.onUpgrade(db, ContactsDataBaseHelper.VERSION, ContactsDataBaseHelper.VERSION);
+    }
+
+    public void openDB() {
+        mContactsDataBaseHelper = new ContactsDataBaseHelper(mContext);
+        db = mContactsDataBaseHelper.getWritableDatabase();
     }
 
     public void closeDB() {
@@ -98,6 +111,7 @@ public class ContactsRepository {
         } else {
             /*TODO*/
         }
+        isSaveChange = false;
     }
 
     public Contact getContactByPosition(int position) {
@@ -107,11 +121,13 @@ public class ContactsRepository {
     public void removeContact(int position) {
         mContacts.remove(position);
         onEmptyAction();
+        isSaveChange = false;
     }
 
     public void removeContacts() {
         mContacts.clear();
         onEmptyAction();
+        isSaveChange = false;
     }
 
     public int getCountContacts() {

@@ -1,6 +1,7 @@
 package com.soloviev.contactsapp;
 
 import android.app.AlertDialog;
+import android.app.LoaderManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,12 +39,12 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        android.support.v4.app.LoaderManager loaderManager=getLoaderManager();
         mContactListViewAdapter = new ContactListViewAdapter(ContactsRepository.getInstance(getActivity().getApplicationContext()).getContacts());
         setListAdapter(mContactListViewAdapter);
 //        setEmptyText("Нет контактов");
         setHasOptionsMenu(true);
         ContactsRepository.getInstance(getActivity().getApplicationContext()).setEmptyCheckable(this);
-//        disableDelete();
     }
 
     @Override
@@ -85,6 +86,7 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
                 Toast.makeText(getActivity(), "yep, sure", Toast.LENGTH_SHORT).show();
                 menuDelete.setVisible(false);
                 break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -135,7 +137,6 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
                         ContactsRepository.getInstance(getActivity().getApplicationContext()).removeContact(position);
                         Toast.makeText(getActivity(), "delete_finish_elements" + ContactsRepository.getInstance(getActivity().getApplicationContext()).getCountContacts(), Toast.LENGTH_SHORT).show();
                         refresh();
-//                        disableDelete();
                     }
                 });
         AlertDialog dialog = builder.create();
@@ -143,19 +144,6 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
 
     }
 
-//    /*
-//    * делает пункт меню "удалить последний контакт" недоступным в случае
-//    * отстуствия в хранилище контактов.
-//    * возвращает в случае успеха true,
-//    * иначе false
-//    * */
-//    private boolean disableDelete() {
-//        if (ContactsRepository.getInstance().getCountContacts() == 0) {
-//            menuDelete.setVisible(false);
-//            return true;
-//        }
-//        return false;
-//    }
 
     @Override
     public void actionByContactsEmpty() {

@@ -20,7 +20,7 @@ public class ContactListActivity extends FragmentActivity {
         if (contactListFragment == null) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (findViewById(R.id.layout_plan) == null) {
-                fragmentTransaction.add( new ContactsListFragment(), TAG_CONTACT_ACTIVITY_FRAGMENT).commit();
+                fragmentTransaction.add( R.id.layout_plan2,new ContactsListFragment(), TAG_CONTACT_ACTIVITY_FRAGMENT).commit();
             } else {
                 fragmentTransaction.add(R.id.layout_left, new ContactsListFragment(), TAG_CONTACT_ACTIVITY_FRAGMENT).commit();
             }

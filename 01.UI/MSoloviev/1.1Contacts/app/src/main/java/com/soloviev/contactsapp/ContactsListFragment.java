@@ -49,7 +49,7 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
         mContactListViewAdapter = new ContactListViewAdapter(ContactsRepository.getInstance(getActivity()).getContacts()/*new ArrayList<Contact>()*/);
         setListAdapter(mContactListViewAdapter);
 //        setEmptyText("LoadDB.No Take nothing");
-    getLoaderManager().initLoader(ID_LOADER, null, this);
+        getLoaderManager().initLoader(ID_LOADER, null, this);
         setHasOptionsMenu(true);
         ContactsRepository.getInstance(getActivity().getApplicationContext()).setEmptyCheckable(this);
     }
@@ -68,13 +68,15 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        ContactsRepository contactsRepository = ContactsRepository.getInstance(getActivity().getApplicationContext());
-        switch (id) {
+
+        ContactsRepository contactsRepository = ContactsRepository.getInstance(getActivity()
+                .getApplicationContext());
+        switch (item.getItemId()) {
 
             case R.id.add_contact:
                 contactsRepository.addContact(Contact.generateNewContact());
-                Toast.makeText(getActivity(), "added, now " + (contactsRepository.getCountContacts()), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "added " + (contactsRepository.getCountContacts()),
+                        Toast.LENGTH_SHORT).show();
                 /*TODO*/
                 if (!(menuDelete.isVisible())) {
                     menuDelete.setVisible(true);
@@ -90,7 +92,7 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
             case R.id.action_confirm_cleaning:
                 contactsRepository.removeContacts();
                 refresh();
-                Toast.makeText(getActivity(), "yep, sure", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "removed", Toast.LENGTH_SHORT).show();
                 menuDelete.setVisible(false);
                 break;
 
@@ -107,12 +109,16 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
         mIdContactDetails = ((Contact) l.getItemAtPosition(position)).getId();
         if (getActivity().findViewById(R.id.layout_plan) != null) {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            ContactFragment contactFragment = (ContactFragment) fragmentManager.findFragmentByTag(ContactActivity.TAG_CONTACT_FRAGMENT);
+            ContactFragment contactFragment =
+                    (ContactFragment) fragmentManager
+                            .findFragmentByTag(ContactActivity.TAG_CONTACT_FRAGMENT);
             if (contactFragment != null) {
                 fragmentManager.beginTransaction().detach(contactFragment).commit();
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.layout_ridht, ContactFragment.newInstanceFragment(mIdContactDetails), ContactActivity.TAG_CONTACT_FRAGMENT).commit();
+            fragmentTransaction.add(R.id.layout_ridht,
+                    ContactFragment.newInstanceFragment(mIdContactDetails),
+                    ContactActivity.TAG_CONTACT_FRAGMENT).commit();
         } else {
             Intent intent = new Intent(getActivity(), ContactActivity.class);
             intent.putExtra(ContactFragment.ID_CONTACT, mIdContactDetails);

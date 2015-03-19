@@ -22,6 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textAppearance="?android:attr/textAppearanceListItem"
-        tools:text="number phone"/>
+        tools:text="Number Phone"/>
 
 </LinearLayout>

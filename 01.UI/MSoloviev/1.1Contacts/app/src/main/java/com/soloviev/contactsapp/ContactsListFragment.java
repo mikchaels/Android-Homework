@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.soloviev.contactsapp.loader.SimpleAsyncTaskLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,10 +46,10 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mContactListViewAdapter = new ContactListViewAdapter(new ArrayList<Contact>());
+        mContactListViewAdapter = new ContactListViewAdapter(ContactsRepository.getInstance(getActivity()).getContacts()/*new ArrayList<Contact>()*/);
         setListAdapter(mContactListViewAdapter);
 //        setEmptyText("LoadDB.No Take nothing");
-       getLoaderManager().initLoader(ID_LOADER, null, this);
+    getLoaderManager().initLoader(ID_LOADER, null, this);
         setHasOptionsMenu(true);
         ContactsRepository.getInstance(getActivity().getApplicationContext()).setEmptyCheckable(this);
     }

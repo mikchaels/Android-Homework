@@ -1,13 +1,15 @@
 package com.soloviev.contactsapp;
 
 import android.app.AlertDialog;
-import android.app.LoaderManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,10 +19,16 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.soloviev.contactsapp.loader.SimpleAsyncTaskLoader;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by USER on 06.03.2015.
  */
-public class ContactsListFragment extends ListFragment implements ContactsRepository.EmptyCheckable {
+public class ContactsListFragment extends ListFragment implements ContactsRepository.EmptyCheckable, LoaderManager.LoaderCallbacks<List> {
+    public static final int ID_LOADER = 1;
     /*TODO*/
     MenuItem menuDelete;
     ContactListViewAdapter mContactListViewAdapter;
@@ -39,10 +47,10 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        android.support.v4.app.LoaderManager loaderManager=getLoaderManager();
-        mContactListViewAdapter = new ContactListViewAdapter(ContactsRepository.getInstance(getActivity().getApplicationContext()).getContacts());
+        mContactListViewAdapter = new ContactListViewAdapter(new ArrayList<Contact>());
         setListAdapter(mContactListViewAdapter);
-//        setEmptyText("Нет контактов");
+//        setEmptyText("LoadDB.No Take nothing");
+       getLoaderManager().initLoader(ID_LOADER, null, this);
         setHasOptionsMenu(true);
         ContactsRepository.getInstance(getActivity().getApplicationContext()).setEmptyCheckable(this);
     }
@@ -144,9 +152,42 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
 
     }
 
-
     @Override
     public void actionByContactsEmpty() {
         menuDelete.setVisible(false);
+    }
+
+
+
+    /*FOR LoaderManager.LoaderCallbacks*/
+
+
+    @Override
+    public Loader<List> onCreateLoader(int id, Bundle args) {
+        return new ContactLoader(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List> loader, List data) {
+        mContactListViewAdapter = new ContactListViewAdapter(data);
+        setListAdapter(mContactListViewAdapter);
+        refresh();
+    }
+
+
+    @Override
+    public void onLoaderReset(Loader<List> loader) {
+        /*TODO   .....*/
+    }
+
+    private static class ContactLoader extends SimpleAsyncTaskLoader<List> {
+        public ContactLoader(Context context) {
+            super(context);
+        }
+
+        @Override
+        public List<Contact> loadInBackground() {
+            return ContactsRepository.getInstance(getContext()).getContacts();
+        }
     }
 }

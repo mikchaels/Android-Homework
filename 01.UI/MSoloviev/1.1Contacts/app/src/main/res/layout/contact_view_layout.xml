@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceListItem"
-        tools:text="Contact Name here"/>
+        tools:text="Contact Name "/>
 
     <TextView
         android:id="@+id/contactview_phone"

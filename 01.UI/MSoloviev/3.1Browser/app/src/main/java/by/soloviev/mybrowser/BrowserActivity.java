@@ -11,13 +11,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 
 public class BrowserActivity extends Activity implements View.OnClickListener {
 
     public static final String INTENT_ACTION = "android.intent.action.VIEW";
     public static final String URL = "LatestURL";
+
     private WebView mWebView;
     private EditText mUrlBar;
     private Button mLoadButton;
@@ -58,7 +58,7 @@ public class BrowserActivity extends Activity implements View.OnClickListener {
     }
 
     /*
-    * обработчик нажатия кнопи назад девайса
+    * обработчик нажатия кнопи "назад" девайса
     *
     * */
     @Override
@@ -74,6 +74,7 @@ public class BrowserActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
+
         mUrlBar = (EditText) findViewById(R.id.url_bar);
         mWebView = (WebView) findViewById(R.id.web_view);
         mLoadButton = (Button) findViewById(R.id.load_button);
@@ -83,6 +84,7 @@ public class BrowserActivity extends Activity implements View.OnClickListener {
         mHistoryButton = (Button) findViewById(R.id.history_button);
         mForwardButton.setEnabled(false);
         mBackButton.setEnabled(false);
+
         mWebView.setWebViewClient(new WebViewClient() {
             /*
             * без переопределения этого метода,
@@ -98,7 +100,7 @@ public class BrowserActivity extends Activity implements View.OnClickListener {
             public void onPageFinished(WebView view, String url) {
 
                 mUrlBar.setText(url);
-                HistoryRepository.getInstance().writeHistory(new History(url));
+                HistoryRepository.getInstance(getApplicationContext()).writeHistory(new History(url));
                 if (mWebView.canGoBack()) {
                     mBackButton.setEnabled(true);
                 } else {
@@ -127,25 +129,23 @@ public class BrowserActivity extends Activity implements View.OnClickListener {
             }
         } else {
 
-            if (!(getSharedPreferences(URL, Context.MODE_APPEND).getString(URL, null) == null)) {
-                mWebView.loadUrl(getPreferences(Context.MODE_PRIVATE).getString(URL, null));
+            if ((getSharedPreferences(URL, Context.MODE_APPEND).getString(URL, null) != null)) {
+                mWebView.loadUrl(getSharedPreferences(URL, Context.MODE_PRIVATE).getString(URL, null));
             }
         }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (isFinishing()) {
-            String url = mWebView.getUrl();
-            SharedPreferences lastUrl = getSharedPreferences(URL, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = lastUrl.edit();
-            editor.putString(URL, url);
-            editor.apply();
-           // Toast.makeText(this,"Destroy",Toast.LENGTH_LONG).show();
-        }
-
+    protected void onPause() {
+        super.onPause();
+        String url = mWebView.getUrl();
+        SharedPreferences lastUrl = getSharedPreferences(URL, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = lastUrl.edit();
+        editor.putString(URL, url);
+        editor.apply();
     }
+
+
 }
 
 

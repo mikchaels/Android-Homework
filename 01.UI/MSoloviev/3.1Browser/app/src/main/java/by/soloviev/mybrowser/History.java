@@ -8,11 +8,16 @@ import java.util.Date;
  */
 public class History implements Serializable {
     private String mAddress;
-    private Date mTime;
+    private String mTime;
 
-    public History(String adress) {
-        mAddress = adress;
-        mTime = new Date();
+    public History(String address) {
+        mAddress = address;
+        mTime = new Date().toString();
+    }
+
+    public History(String address, String date) {
+        mAddress = address;
+        mTime = date;
     }
 
     public String getAddress() {
@@ -20,15 +25,13 @@ public class History implements Serializable {
     }
 
 
-    public Date getTime() {
+    public String getTime() {
         return mTime;
     }
 
     @Override
     public String toString() {
-        return
-                mAddress +
-                "   :   " + mTime.toString() ;
+        return (mAddress + "   :   " + mTime.toString());
     }
 }
 

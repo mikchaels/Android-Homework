@@ -1,24 +1,31 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="by.soloviev.mplayer">
+<manifest
+    package="by.soloviev.mplayer"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <application android:allowBackup="true"
-                 android:label="@string/app_name"
-                 android:icon="@drawable/ic_launcher"
-                 android:theme="@style/AppTheme">
-<activity android:name=".MPlayerActivity">
-    <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-    </intent-filter>
-</activity>
-        <service android:name=".MPlayerService"/>
-        <receiver android:name="MPlayerAppWidgetProvider"
-
-            >
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MPlayerActivity">
             <intent-filter>
-
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <service android:name=".MPlayerService"/>
+        <receiver android:name="MPlayerAppWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                       android:resource="@xml/player_app_widget" />
+
         </receiver>
     </application>
 
 </manifest>
+
+
+
+

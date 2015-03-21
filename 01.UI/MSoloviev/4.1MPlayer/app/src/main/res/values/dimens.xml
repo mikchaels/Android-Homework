@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="app_widget_first_size">40</dimen>
-    <dimen name="app_widget_second_size">110</dimen>
-    <dimen name="app_widget_the_size">180</dimen>
-    <dimen name="app_widget_for_size">250</dimen>
+    <dimen name="app_widget_first_size">40dp</dimen>
+    <dimen name="app_widget_second_size">110dp</dimen>
+    <dimen name="app_widget_the_size">180dp</dimen>
+    <dimen name="app_widget_for_size">250dp</dimen>
 </resources>

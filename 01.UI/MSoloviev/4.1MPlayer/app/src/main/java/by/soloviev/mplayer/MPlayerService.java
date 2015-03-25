@@ -80,7 +80,7 @@ public class MPlayerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        initMPlayer();
+
         Log.d(LOG_TAG, "onCreate");
     }
 
@@ -93,6 +93,7 @@ public class MPlayerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        initMPlayer();
         actionFromIntent(intent);
         return START_REDELIVER_INTENT;
     }
@@ -145,7 +146,6 @@ public class MPlayerService extends Service {
 
     interface PlayListener {
         void onPlayListener();
-
     }
 
 }

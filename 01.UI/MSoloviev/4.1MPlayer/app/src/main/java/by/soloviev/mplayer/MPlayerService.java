@@ -15,14 +15,20 @@ import java.io.IOException;
  * Created by USER on 20.03.2015.
  */
 public class MPlayerService extends Service {
+
     public final static String ACTION_PLAY = "by.soloviev.mplayer.play";
     public final static String ACTION_PAUSE = "by.soloviev.mplayer.pause";
     public final static String ACTION_STOP = "stop";
     final static String LOG_TAG = "logMPService";
+
     private static MediaPlayer mMediaPlayer;
     private static PlayListener mPlayListener;
+
     private String mTrack = "SZ.mp3";
 
+    static void setPlayListener(PlayListener playListener) {
+        mPlayListener = playListener;
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -98,7 +104,6 @@ public class MPlayerService extends Service {
         return START_REDELIVER_INTENT;
     }
 
-
     void pause() {
         Log.d(LOG_TAG, "MyService pause");
         if (mMediaPlayer.isPlaying()) {
@@ -134,18 +139,14 @@ public class MPlayerService extends Service {
         stop();
     }
 
+    interface PlayListener {
+        void onPlayListener();
+    }
+
     class MPlayerBinder extends Binder {
         MPlayerService getService() {
             return MPlayerService.this;
         }
-    }
-
-     static void setPlayListener(PlayListener playListener) {
-        mPlayListener = playListener;
-    }
-
-    interface PlayListener {
-        void onPlayListener();
     }
 
 }

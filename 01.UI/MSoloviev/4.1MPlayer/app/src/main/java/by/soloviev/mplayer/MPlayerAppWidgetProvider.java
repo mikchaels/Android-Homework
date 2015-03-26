@@ -24,8 +24,8 @@ public class MPlayerAppWidgetProvider extends AppWidgetProvider {
             Intent intentPL = new Intent(context, MPlayerService.class)
                     .setAction(MPlayerService.ACTION_PLAY);
             Intent intentSt = new Intent(context, MPlayerService.class).
-                    setAction(MPlayerService.ACTION_STOP);;
-
+                    setAction(MPlayerService.ACTION_STOP);
+            ;
 
 
             PendingIntent pendingIntentPl = PendingIntent.getService(context, 1, intentPL, 0);

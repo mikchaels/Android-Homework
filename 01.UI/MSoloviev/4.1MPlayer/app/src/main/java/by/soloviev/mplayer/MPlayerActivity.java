@@ -13,11 +13,15 @@ import android.widget.Button;
 public class MPlayerActivity extends Activity {
 
 
+    public static final String ACTIVITY_LOG = "Activity_log";
+
+    String textButtonStart = getString(R.string.button_name_start);
+    String textButtonStop = getString(R.string.button_name_stop);
+    String textButtonPause = getString(R.string.button_name_pause);
+
     private MPlayerService mMPlayerService;
     private ServiceConnection mServiceConnection;
-
     private boolean isPlay;
-
     private Button mButton;
 
     @Override
@@ -40,28 +44,28 @@ public class MPlayerActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (mMPlayerService == null) {
-                    Log.d("Activity_log", "onClick");
+                    Log.d(ACTIVITY_LOG, "onClick");
                     Intent playIntent = new Intent(MPlayerActivity.this, MPlayerService.class);
 
                     if (isPlay) {
                         playIntent.setAction(MPlayerService.ACTION_PAUSE);
-                        mButton.setText("Start");
-                        Log.d("Activity_log", "Start");
+                        mButton.setText(textButtonStart);
+                        Log.d(ACTIVITY_LOG, "Start");
                     } else {
                         playIntent.setAction(MPlayerService.ACTION_PLAY);
-                        mButton.setText("Pause");
-                        Log.d("Activity_log", "Pause");
+                        mButton.setText(textButtonPause);
+                        Log.d(ACTIVITY_LOG, "Pause");
                     }
 
                     bindService(playIntent, mServiceConnection, BIND_AUTO_CREATE);
-                    Log.d("Activity_log", "bind Service  " + playIntent.getAction().toString());
+                    Log.d(ACTIVITY_LOG, "bind Service  " + playIntent.getAction().toString());
 
                 } else if (isPlay) {
                     mMPlayerService.pause();
-                    mButton.setText("Start");
+                    mButton.setText(textButtonStart);
                 } else {
                     mMPlayerService.play();
-                    mButton.setText("Pause");
+                    mButton.setText(textButtonPause);
                 }
                 isPlay = !isPlay;
             }
@@ -72,7 +76,7 @@ public class MPlayerActivity extends Activity {
             public void onClick(View v) {
                 if (mMPlayerService != null) {
                     unbindService(mServiceConnection);
-                    mButton.setText("Start");
+                    mButton.setText(textButtonStart);
                     isPlay = false;
                     mMPlayerService = null;
                 }

@@ -16,7 +16,7 @@ import android.widget.EditText;
 public class BrowserActivity extends Activity implements View.OnClickListener {
 
     public static final String INTENT_ACTION = "android.intent.action.VIEW";
-    public static final String URL = "LatestURL";
+    public static final String PREF_LATEST_URL = "LatestURL";
 
     private WebView mWebView;
     private EditText mUrlBar;
@@ -32,28 +32,31 @@ public class BrowserActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case (R.id.load_button):
+
+            case R.id.load_button:
                 String url = mUrlBar.getText().toString();
                 if ((TextUtils.isEmpty(url)) || (url.equals("http://"))) {
                     url = getString(R.string.defAdress);
                 }
                 mWebView.loadUrl(url);
                 break;
-            case (R.id.reload_button):
+
+            case R.id.reload_button:
                 mWebView.reload();
                 break;
+
             case (R.id.back_button):
                 mWebView.goBack();
                 break;
-            case (R.id.forward_button):
+            case R.id.forward_button:
                 mWebView.goForward();
                 break;
-            case (R.id.history_button):
+
+            case R.id.history_button:
                 Intent intent = new Intent(BrowserActivity.this, HistoryListActivity.class);
                 startActivity(intent);
                 break;
-            default:
-                break;
+
         }
     }
 
@@ -75,13 +78,8 @@ public class BrowserActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
 
-        mUrlBar = (EditText) findViewById(R.id.url_bar);
-        mWebView = (WebView) findViewById(R.id.web_view);
-        mLoadButton = (Button) findViewById(R.id.load_button);
-        mReloadButton = (Button) findViewById(R.id.reload_button);
-        mBackButton = (Button) findViewById(R.id.back_button);
-        mForwardButton = (Button) findViewById(R.id.forward_button);
-        mHistoryButton = (Button) findViewById(R.id.history_button);
+        initViews();
+
         mForwardButton.setEnabled(false);
         mBackButton.setEnabled(false);
 
@@ -115,11 +113,13 @@ public class BrowserActivity extends Activity implements View.OnClickListener {
         });
 
         mWebView.getSettings().setJavaScriptEnabled(true);
+
         mLoadButton.setOnClickListener(this);
         mReloadButton.setOnClickListener(this);
         mBackButton.setOnClickListener(this);
         mForwardButton.setOnClickListener(this);
         mHistoryButton.setOnClickListener(this);
+
         Intent intent = getIntent();
 
         if (INTENT_ACTION.equals(intent.getAction())) {
@@ -127,21 +127,29 @@ public class BrowserActivity extends Activity implements View.OnClickListener {
             if (!TextUtils.isEmpty(uri)) {
                 mWebView.loadUrl(uri);
             }
-        } else {
-
-            if ((getSharedPreferences(URL, Context.MODE_APPEND).getString(URL, null) != null)) {
-                mWebView.loadUrl(getSharedPreferences(URL, Context.MODE_PRIVATE).getString(URL, null));
-            }
+        } else if ((getSharedPreferences(PREF_LATEST_URL, Context.MODE_APPEND).getString(PREF_LATEST_URL, null) != null)) {
+            mWebView.loadUrl(getSharedPreferences(PREF_LATEST_URL, Context.MODE_PRIVATE).getString(PREF_LATEST_URL, null));
         }
+
+    }
+
+    private void initViews() {
+        mUrlBar = (EditText) findViewById(R.id.url_bar);
+        mWebView = (WebView) findViewById(R.id.web_view);
+        mLoadButton = (Button) findViewById(R.id.load_button);
+        mReloadButton = (Button) findViewById(R.id.reload_button);
+        mBackButton = (Button) findViewById(R.id.back_button);
+        mForwardButton = (Button) findViewById(R.id.forward_button);
+        mHistoryButton = (Button) findViewById(R.id.history_button);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         String url = mWebView.getUrl();
-        SharedPreferences lastUrl = getSharedPreferences(URL, Context.MODE_PRIVATE);
+        SharedPreferences lastUrl = getSharedPreferences(PREF_LATEST_URL, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = lastUrl.edit();
-        editor.putString(URL, url);
+        editor.putString(PREF_LATEST_URL, url);
         editor.apply();
     }
 

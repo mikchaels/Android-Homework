@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +13,14 @@ public class ContactsRepository {
     private static ContactsRepository sContactsRepository;
     EmptyCheckable mEmptyCheckable;
     private List<Contact> mContacts;
-    private SQLiteOpenHelper mContactsDataBaseHelper;
+    private ContactsDataBaseHelper mContactsDataBaseHelper;
     private SQLiteDatabase db;
     private boolean isSaveChange;
 
     private ContactsRepository(Context context) {
         mContacts = new ArrayList<Contact>();
-        mContext=context;
-        readInformationFromDB();
+        mContext = context;
+        readSavedContacts();
     }
 
     public static ContactsRepository getInstance(Context context) {
@@ -34,7 +33,7 @@ public class ContactsRepository {
 
     }
 
-    private void readInformationFromDB() {
+    private void readSavedContacts() {
         int maxID = 0;
         openDB();
         Cursor cursor = db.query(ContactsDataBaseHelper.CONTACTS_TABLE_NAME,
@@ -46,14 +45,20 @@ public class ContactsRepository {
                         ContactsDataBaseHelper.COLUMN_NAME_OCCUPATION,
                         ContactsDataBaseHelper.COLUMN_NAME_PHONE}
                 , null, null, null, null, null);
+        int columnIndexID=cursor.getColumnIndex(ContactsDataBaseHelper.COLUMN_NAME_ID);
+        int columnIndexName=cursor.getColumnIndex(ContactsDataBaseHelper.COLUMN_NAME_NAME);
+        int columnIndexAddress=cursor.getColumnIndex(ContactsDataBaseHelper.COLUMN_NAME_ADDRESS);
+        int columnIndexEmail=cursor.getColumnIndex(ContactsDataBaseHelper.COLUMN_NAME_EMAIL);
+        int columnIndexOccupation=cursor.getColumnIndex(ContactsDataBaseHelper.COLUMN_NAME_OCCUPATION);
+        int columnIndexPhone=cursor.getColumnIndex(ContactsDataBaseHelper.COLUMN_NAME_PHONE);
         while (cursor.moveToNext()) {
-            int id = cursor.getInt(cursor.getColumnIndex(ContactsDataBaseHelper.COLUMN_NAME_ID));
+            int id = cursor.getInt(columnIndexID);
             Contact contact = new Contact(id);
-            contact.setName(cursor.getString(cursor.getColumnIndex(ContactsDataBaseHelper.COLUMN_NAME_NAME)));
-            contact.setAddress(cursor.getString(cursor.getColumnIndex(ContactsDataBaseHelper.COLUMN_NAME_ADDRESS)));
-            contact.setEmail(cursor.getString(cursor.getColumnIndex(ContactsDataBaseHelper.COLUMN_NAME_EMAIL)));
-            contact.setOccupation(cursor.getString(cursor.getColumnIndex(ContactsDataBaseHelper.COLUMN_NAME_OCCUPATION)));
-            contact.setPhone(cursor.getString(cursor.getColumnIndex(ContactsDataBaseHelper.COLUMN_NAME_PHONE)));
+            contact.setName(cursor.getString(columnIndexName));
+            contact.setAddress(cursor.getString(columnIndexAddress));
+            contact.setEmail(cursor.getString( columnIndexEmail));
+            contact.setOccupation(cursor.getString(columnIndexOccupation));
+            contact.setPhone(cursor.getString(columnIndexPhone));
             mContacts.add(contact);
             if (id > maxID) {
                 maxID = id;
@@ -83,7 +88,7 @@ public class ContactsRepository {
     }
 
     private void clearDB() {
-        mContactsDataBaseHelper.onUpgrade(db, ContactsDataBaseHelper.VERSION, ContactsDataBaseHelper.VERSION);
+        mContactsDataBaseHelper.recreateDB(db);
     }
 
     public void openDB() {

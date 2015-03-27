@@ -16,13 +16,16 @@ public class ContactListActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        ContactsListFragment contactListFragment = (ContactsListFragment) fragmentManager.findFragmentByTag(TAG_CONTACT_ACTIVITY_FRAGMENT);
+        ContactsListFragment contactListFragment = (ContactsListFragment) fragmentManager
+                .findFragmentByTag(TAG_CONTACT_ACTIVITY_FRAGMENT);
         if (contactListFragment == null) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (findViewById(R.id.layout_plan) == null) {
-                fragmentTransaction.add( R.id.layout_plan2,new ContactsListFragment(), TAG_CONTACT_ACTIVITY_FRAGMENT).commit();
+                fragmentTransaction.add(R.id.layout_plan2, new ContactsListFragment(),
+                        TAG_CONTACT_ACTIVITY_FRAGMENT).commit();
             } else {
-                fragmentTransaction.add(R.id.layout_left, new ContactsListFragment(), TAG_CONTACT_ACTIVITY_FRAGMENT).commit();
+                fragmentTransaction.add(R.id.layout_left, new ContactsListFragment(),
+                        TAG_CONTACT_ACTIVITY_FRAGMENT).commit();
             }
         }
     }

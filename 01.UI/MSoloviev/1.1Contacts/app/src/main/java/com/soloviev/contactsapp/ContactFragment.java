@@ -15,14 +15,18 @@ import android.widget.TextView;
  * Created by USER on 06.03.2015.
  */
 public class ContactFragment extends Fragment {
+
     public static final String ID_CONTACT = "id_contact";
+
     TextView mNameView;
     TextView mPhoneView;
     TextView mEmailView;
     TextView mAddressView;
     TextView mBirthDateView;
     TextView mOccupationView;
+
     Button mSave;
+
     Contact contact;
     int idContact;
 
@@ -59,8 +63,6 @@ public class ContactFragment extends Fragment {
         Bundle arg = getArguments();
         if (arg == null) {
             idContact = (int) getActivity().getIntent().getSerializableExtra(ID_CONTACT);
-        } else {
-            idContact = arg.getInt(ID_CONTACT);
         }
 
         init(idContact);
@@ -109,7 +111,7 @@ public class ContactFragment extends Fragment {
                         mSave.setVisibility(View.INVISIBLE);
                     }
                 });
-                break;
+                return true;
 
             }
         }

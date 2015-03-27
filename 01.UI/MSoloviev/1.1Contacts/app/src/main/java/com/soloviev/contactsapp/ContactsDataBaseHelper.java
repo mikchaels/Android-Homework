@@ -38,8 +38,12 @@ public class ContactsDataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        recreateDB(db);
+
+    }
+
+    public void recreateDB(SQLiteDatabase db) {
         db.execSQL(DELETE_QUERY_TABLE);
         onCreate(db);
-
     }
 }

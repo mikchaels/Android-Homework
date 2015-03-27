@@ -46,9 +46,10 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mContactListViewAdapter = new ContactListViewAdapter(ContactsRepository.getInstance(getActivity()).getContacts()/*new ArrayList<Contact>()*/);
+        mContactListViewAdapter = new ContactListViewAdapter(ContactsRepository
+                .getInstance(getActivity()).getContacts()/*new ArrayList<Contact>()*/);
         setListAdapter(mContactListViewAdapter);
-//        setEmptyText("LoadDB.No Take nothing");
+
         getLoaderManager().initLoader(ID_LOADER, null, this);
         setHasOptionsMenu(true);
         ContactsRepository.getInstance(getActivity().getApplicationContext()).setEmptyCheckable(this);
@@ -83,18 +84,18 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
                 }
                 /**/
                 refresh();
-                break;
+                return true;
 
             case R.id.delete_contact:
                 safeRemoveItem(contactsRepository.getCountContacts() - 1);
-                break;
+                return true;
 
             case R.id.action_confirm_cleaning:
                 contactsRepository.removeContacts();
                 refresh();
                 Toast.makeText(getActivity(), "removed", Toast.LENGTH_SHORT).show();
                 menuDelete.setVisible(false);
-                break;
+                return true;
 
         }
         return super.onOptionsItemSelected(item);
@@ -107,6 +108,7 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         mIdContactDetails = ((Contact) l.getItemAtPosition(position)).getId();
+
         if (getActivity().findViewById(R.id.layout_plan) != null) {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             ContactFragment contactFragment =
@@ -141,14 +143,19 @@ public class ContactsListFragment extends ListFragment implements ContactsReposi
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        ContactFragment contactFragment = (ContactFragment) fragmentManager.findFragmentByTag(ContactActivity.TAG_CONTACT_FRAGMENT);
+                        ContactFragment contactFragment = (ContactFragment) fragmentManager
+                                .findFragmentByTag(ContactActivity.TAG_CONTACT_FRAGMENT);
                         if (contactFragment != null) {
-                            if (ContactsRepository.getInstance(getActivity().getApplicationContext()).getContactByPosition(position).getId() == contactFragment.getIdContact()) {
+                            if (ContactsRepository.getInstance(getActivity().getApplicationContext())
+                                    .getContactByPosition(position).getId() == contactFragment.getIdContact()) {
                                 fragmentManager.beginTransaction().detach(contactFragment).commit();
                             }
                         }
-                        ContactsRepository.getInstance(getActivity().getApplicationContext()).removeContact(position);
-                        Toast.makeText(getActivity(), "delete_finish_elements" + ContactsRepository.getInstance(getActivity().getApplicationContext()).getCountContacts(), Toast.LENGTH_SHORT).show();
+                        ContactsRepository.getInstance(getActivity().getApplicationContext())
+                                .removeContact(position);
+                        Toast.makeText(getActivity(), "delete_finish_elements" + ContactsRepository
+                                .getInstance(getActivity().getApplicationContext()).getCountContacts()
+                                , Toast.LENGTH_SHORT).show();
                         refresh();
                     }
                 });

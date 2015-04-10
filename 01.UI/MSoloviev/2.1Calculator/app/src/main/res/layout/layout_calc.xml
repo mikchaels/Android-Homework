@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/content_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    >
+
+    <View
+        android:id="@+id/fake_center"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        />
+
+    <EditText
+        android:id="@+id/first_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/fake_center"
+        android:inputType="numberDecimal"
+
+        />
+
+    <EditText
+        android:id="@+id/second_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/fake_center"
+        android:inputType="numberDecimal"
+        />
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/second_number"
+        android:layout_centerHorizontal="true"
+        >
+
+        <RadioButton
+            android:id="@+id/plus_operation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/plus_operation"
+            />
+
+        <RadioButton
+            android:id="@+id/minus_operation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/minus_operation"
+            />
+
+
+        <RadioButton
+            android:id="@+id/multiply_operation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/multiply_operation"
+            />
+
+        <RadioButton
+            android:id="@+id/devide_operation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/devide_operation"
+            />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/perform_operation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/radio_group"
+        android:layout_centerHorizontal="true"
+        android:text="@string/perform_operation"
+        />
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/perform_operation"
+        android:layout_centerHorizontal="true"
+        tools:text="Results"
+        />
+
+</RelativeLayout>

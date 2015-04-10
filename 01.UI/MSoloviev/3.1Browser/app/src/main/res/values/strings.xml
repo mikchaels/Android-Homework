@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyBrowser</string>
+    <string name="load_button">go</string>
+    <string name="reload_button">reload</string>
+    <string name="back_button">back</string>
+    <string name="forward_button">forward</string>
+    <string name="defAdress">http://yandex.ru</string>
+    <string name="history_button">history</string>
+</resources>

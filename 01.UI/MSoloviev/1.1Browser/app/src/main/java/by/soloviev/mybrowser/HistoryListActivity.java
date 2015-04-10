@@ -2,10 +2,7 @@ package by.soloviev.mybrowser;
 
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import java.util.List;
 
 /**
  * Created by USER on 08.02.2015.

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="app_widget_one_cell_size">40dp</dimen>
+    <dimen name="app_widget_two_cell_size">110dp</dimen>
+    <dimen name="app_widget_three_cell_size">180dp</dimen>
+    <dimen name="app_widget_four_cell_size">250dp</dimen>
+</resources>
